@@ -1,0 +1,53 @@
+Domain: x in [ 500 , 800 ], dx = 0.1. Number of samples: 3000
+Actual average: 649.380266667
+Average after rounding half to even: 649.381666667 . Error = 0.000215589702014 %
+Average after rounding half up: 649.432666667 . Error = 0.00806858088447 %
+Actual sum: 1948140.8
+Sum after rounding half to even: 1948145.0 . Error = 0.000215589702008 %
+Sum after rounding half up: 1948298.0 . Error = 0.00806858088445 %
+Here, rounding half to even is a better method
+
+Domain: x in [ 0 , 4 ], dx = 0.1. Number of samples: 10
+Actual average: 2.16
+Average after rounding half to even: 2.2 . Error = 1.81818181818 %
+Average after rounding half up: 2.3 . Error = 6.08695652174 %
+Actual sum: 21.6
+Sum after rounding half to even: 22.0 . Error = 1.81818181818 %
+Sum after rounding half up: 23.0 . Error = 6.08695652174 %
+Here, rounding half to even is a better method
+
+Domain: x in [ 0 , 4 ], dx = 0.1. Number of samples: 10
+Actual average: 2.1
+Average after rounding half to even: 2.3 . Error = 8.69565217391 %
+Average after rounding half up: 2.3 . Error = 8.69565217391 %
+Actual sum: 21.0
+Sum after rounding half to even: 23.0 . Error = 8.69565217391 %
+Sum after rounding half up: 23.0 . Error = 8.69565217391 %
+Here, both rounding methods are equally as good
+
+Domain: x in [ 0 , 4 ], dx = 0.1. Number of samples: 100
+Actual average: 2.081
+Average after rounding half to even: 2.12 . Error = 1.83962264151 %
+Average after rounding half up: 2.18 . Error = 4.54128440367 %
+Actual sum: 208.1
+Sum after rounding half to even: 212.0 . Error = 1.83962264151 %
+Sum after rounding half up: 218.0 . Error = 4.54128440367 %
+Here, rounding half to even is a better method
+
+Domain: x in [ 0 , 4 ], dx = 0.1. Number of samples: 1000
+Actual average: 2.0013
+Average after rounding half to even: 2.003 . Error = 0.0848726909636 %
+Average after rounding half up: 2.051 . Error = 2.42320819113 %
+Actual sum: 2001.3
+Sum after rounding half to even: 2003.0 . Error = 0.0848726909636 %
+Sum after rounding half up: 2051.0 . Error = 2.42320819113 %
+Here, rounding half to even is a better method
+
+Domain: x in [ -10 , 10 ], dx = 0.1. Number of samples: 2000
+Actual average: -0.3083
+Average after rounding half to even: -0.311 . Error = -0.868167202572 %
+Average after rounding half up: -0.304 . Error = -1.41447368421 %
+Actual sum: -616.6
+Sum after rounding half to even: -622.0 . Error = -0.868167202572 %
+Sum after rounding half up: -608.0 . Error = -1.41447368421 %
+Here, rounding half to even is a better method
