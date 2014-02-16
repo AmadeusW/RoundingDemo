@@ -54,8 +54,8 @@ def roundValues(domain, samples, roundToClosestEvenInt):
 		outputArray[roundedValueIndex] += samples[value]
 	return outputArray
 
-def rmse(a, b):
-	return numpy.sqrt(numpy.average((a-b)**2))	
+def percentError(experimental, actual):
+	return numpy.abs(experimental - actual) / actual
 
 # Parse arguments
 parser = argparse.ArgumentParser(description='Demonstrate difference between rounding to nearest integer and rounding to nearest even integer')
@@ -94,13 +94,13 @@ averageOfRandom = findAverage(domain, randomSamples)
 averageOfRoundedToClosestEven = findAverage(domain, roundedToClosestEven)
 averageOfRoundedToClosestInt = findAverage(domain, roundedToClosestInt)
 
-errorOfRoundingToClosestEven = rmse(averageOfRandom, averageOfRoundedToClosestEven)
-errorOfRoundingToClosestInt = rmse(averageOfRandom, averageOfRoundedToClosestInt)
+errorOfRoundingToClosestEven = percentError(averageOfRandom, averageOfRoundedToClosestEven)
+errorOfRoundingToClosestInt = percentError(averageOfRandom, averageOfRoundedToClosestInt)
 
 # Print output
 print 'Actual average:', averageOfRandom
-print 'Average after rounding to closest even integer:', averageOfRoundedToClosestEven, '(rmse =', errorOfRoundingToClosestEven, ')'
-print 'Average after rounding to any closest integer:', averageOfRoundedToClosestInt, '(rmse =', errorOfRoundingToClosestInt, ')'
+print 'Average after rounding to closest even integer:', averageOfRoundedToClosestEven, '. Error =', errorOfRoundingToClosestEven, '%'
+print 'Average after rounding to any closest integer:', averageOfRoundedToClosestInt, '. Error =', errorOfRoundingToClosestInt, '%'
 if (numpy.abs(averageOfRandom - averageOfRoundedToClosestInt) < numpy.abs(averageOfRandom - averageOfRoundedToClosestEven)):
 	print 'Here, averaging to any closest integer is a better method'
 elif (averageOfRoundedToClosestEven == averageOfRoundedToClosestInt):
