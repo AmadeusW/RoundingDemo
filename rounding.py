@@ -87,13 +87,17 @@ domainMax = args.domainMax
 amountOfSamples = args.samples
 seed = args.seed
 createPlots = args.plot
+# Safety
+if (domainMin >= domainMax):
+	parser.print_help()
+	exit(1)
 
 # Print configuration
 print 'Domain: x in [', domainMin, ',', domainMax, '], dx = 0.1. Number of samples:', amountOfSamples
 
 # Generate domain and random numbers
 # Amount of samples=domainMax*10 + 1 ensures that dx=0.1
-domain = generateDomain(domainMin, domainMax, domainMax*10 + 1)
+domain = generateDomain(domainMin, domainMax, (domainMax-domainMin)*10 + 1)
 randomSamples = generateRandomNumbers(domain, amountOfSamples, seed)
 
 # Perform rounding
