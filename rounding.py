@@ -141,6 +141,6 @@ if (createPlots != 0):
 	pylab.vlines(averageOfRandom, 0.01, 0.99, 'g')
 	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.97, 'k')
 	pylab.vlines(averageOfRoundedToClosestInt, 0.03, 0.99, 'r')
-	pylab.title('Averages produced by rounding to closest integer (red) and closest even integer (black)')
+	pylab.title('Averages after rounding to nearest integer: any - red, and even - black')
 
 	pylab.show()
