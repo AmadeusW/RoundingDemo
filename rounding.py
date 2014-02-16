@@ -1,7 +1,7 @@
 import numpy
 import pylab
 import bisect
-
+import argparse
 
 def generateDomain(start, end, numberOfSamples):
 	return numpy.linspace(start, end, numberOfSamples)
@@ -57,11 +57,28 @@ def roundValues(domain, samples, roundToClosestEvenInt):
 def rmse(a, b):
 	return numpy.sqrt(numpy.average((a-b)**2))	
 
+# Parse arguments
+parser = argparse.ArgumentParser(description='Demonstrate difference between rounding to nearest integer and rounding to nearest even integer')
+parser.add_argument('domainMin', type=int, nargs='?', default=0,
+                   help='Lower bound on the domain (inclusive). Default = 0')
+parser.add_argument('domainMax', type=int, nargs='?', default=10,
+                   help='Upper bound on the domain (inclusive). Default = 10')
+parser.add_argument('samples', type=int, nargs='?', default=10000,
+                   help='Number of samples to generate. Default = 10000')
+parser.add_argument('--plot', type=int, nargs='?', default=1,
+                   help='0 to supress plot creation. Default = 1')
+parser.add_argument('--seed', type=int, nargs='?', default=None,
+                   help='Seed for the random number generator. Default = None')
+
+args = parser.parse_args()
 # Configure
-domainMin = 0
-domainMax = 20
-amountOfSamples = 10000
-seed = None
+domainMin = args.domainMin
+domainMax = args.domainMax
+amountOfSamples = args.samples
+seed = args.seed
+createPlots = args.plot
+print args
+print args.plot
 
 # Print configuration
 print 'Domain: x in [', domainMin, ',', domainMax, '], dx = 0.1. Number of samples:', amountOfSamples
@@ -85,45 +102,52 @@ errorOfRoundingToClosestInt = rmse(averageOfRandom, averageOfRoundedToClosestInt
 print 'Actual average:', averageOfRandom
 print 'Average after rounding to closest even integer:', averageOfRoundedToClosestEven, '(rmse =', errorOfRoundingToClosestEven, ')'
 print 'Average after rounding to any closest integer:', averageOfRoundedToClosestInt, '(rmse =', errorOfRoundingToClosestInt, ')'
+if (numpy.abs(averageOfRandom - averageOfRoundedToClosestInt) < numpy.abs(averageOfRandom - averageOfRoundedToClosestEven)):
+	print 'Here, averaging to any closest integer is a better method'
+elif (averageOfRoundedToClosestEven == averageOfRoundedToClosestInt):
+	print 'Here, both rounding methods are equally as good'
+else:
+	print 'Here, averaging to closest even integer is a better method'
 
-# This will be used to normalize the graphs
-largestRandomValue = findMax(randomSamples)
-largestRandomValueRoundedToClosestEven = findMax(roundedToClosestEven)
-largestRandomValueRoundedToClosestInt = findMax(roundedToClosestInt)
+if (createPlots != 0):
+	# This will be used to normalize the graphs
+	largestRandomValue = findMax(randomSamples)
+	largestRandomValueRoundedToClosestEven = findMax(roundedToClosestEven)
+	largestRandomValueRoundedToClosestInt = findMax(roundedToClosestInt)
 
-# Plots three graphs showing random samples, 
-# samples rounded to closest even int
-# and samples rounded to any closest int
-# Together with respective averages
-pylab.figure(1)
-pylab.subplot(3,1,1)
-pylab.plot(domain, randomSamples / largestRandomValue) # normalize each graph
-#pylab.xlabel('x')
-#pylab.ylabel('y')
-pylab.title('Random samples')
-pylab.vlines(averageOfRandom, 0.01, 0.99, 'g') # min=0.01 and max=0.99 produce better looking graphs
+	# Plots three graphs showing random samples, 
+	# samples rounded to closest even int
+	# and samples rounded to any closest int
+	# Together with respective averages
+	pylab.figure(1)
+	pylab.subplot(3,1,1)
+	pylab.plot(domain, randomSamples / largestRandomValue) # normalize each graph
+	#pylab.xlabel('x')
+	#pylab.ylabel('y')
+	pylab.title('Random samples')
+	pylab.vlines(averageOfRandom, 0.01, 0.99, 'g') # min=0.01 and max=0.99 produce better looking graphs
 
-pylab.subplot(3,1,2)
-pylab.plot(domain, roundedToClosestEven / largestRandomValueRoundedToClosestEven)
-#pylab.xlabel('x')
-#pylab.ylabel('y')
-pylab.title('Random samples rounded to closest even integer')
-pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.99, 'k')
+	pylab.subplot(3,1,2)
+	pylab.plot(domain, roundedToClosestEven / largestRandomValueRoundedToClosestEven)
+	#pylab.xlabel('x')
+	#pylab.ylabel('y')
+	pylab.title('Random samples rounded to closest even integer')
+	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.99, 'k')
 
-pylab.subplot(3,1,3)
-pylab.plot(domain, roundedToClosestInt / largestRandomValueRoundedToClosestInt)
-#pylab.xlabel('x')
-#pylab.ylabel('y')
-pylab.title('Random samples rounded to any closest integer')
-pylab.vlines(averageOfRoundedToClosestInt, 0.01, 0.99, 'r')
+	pylab.subplot(3,1,3)
+	pylab.plot(domain, roundedToClosestInt / largestRandomValueRoundedToClosestInt)
+	#pylab.xlabel('x')
+	#pylab.ylabel('y')
+	pylab.title('Random samples rounded to any closest integer')
+	pylab.vlines(averageOfRoundedToClosestInt, 0.01, 0.99, 'r')
 
-# Plots one graph with all averages
-pylab.figure(2)
-pylab.plot(domain, randomSamples / largestRandomValue)
+	# Plots one graph with all averages
+	pylab.figure(2)
+	pylab.plot(domain, randomSamples / largestRandomValue)
 
-pylab.vlines(averageOfRandom, 0.01, 0.99, 'g')
-pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.97, 'k')
-pylab.vlines(averageOfRoundedToClosestInt, 0.01, 0.97, 'r')
-pylab.title('Averages produced by various rounding techniques')
+	pylab.vlines(averageOfRandom, 0.01, 0.99, 'g')
+	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.97, 'k')
+	pylab.vlines(averageOfRoundedToClosestInt, 0.03, 0.99, 'r')
+	pylab.title('Averages produced by various rounding techniques')
 
-pylab.show()
+	pylab.show()
