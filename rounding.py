@@ -20,7 +20,7 @@ def generateRandomNumbers(domain, number, seed=None):
 		occurences[randomX] += 1
 	return occurences
 
-def findAverage(domain, samples):
+def findSumAndAverage(domain, samples):
 	domainSize = domain.size
 	numberOfSamples = 0
 	weightedSum = 0
@@ -28,7 +28,7 @@ def findAverage(domain, samples):
 		weight = domain[i]
 		weightedSum += samples[i] * weight
 		numberOfSamples += samples[i]
-	return weightedSum / numberOfSamples
+	return (weightedSum, weightedSum / numberOfSamples)
 
 def findMax(samples):
 	return numpy.amax(samples)
@@ -40,6 +40,8 @@ def roundValues(domain, samples, roundToClosestEvenInt):
 		value = domain[sample]
 		roundedValue = 0
 		# Round the value
+		# TODO: instead of using numpy or python's implementation,
+		#       I should do rounding on my own.
 		if (roundToClosestEvenInt == True):
 			# Numpy is rounding to nearest even integer
 			roundedValue = numpy.around(value)
@@ -98,23 +100,31 @@ randomSamples = generateRandomNumbers(domain, amountOfSamples, seed)
 roundedToClosestEven = roundValues(domain, randomSamples, True)
 roundedToClosestInt = roundValues(domain, randomSamples, False)
 
-averageOfRandom = findAverage(domain, randomSamples)
-averageOfRoundedToClosestEven = findAverage(domain, roundedToClosestEven)
-averageOfRoundedToClosestInt = findAverage(domain, roundedToClosestInt)
+# Find metrics
+sumOfRandom, averageOfRandom = findSumAndAverage(domain, randomSamples)
+sumOfRoundedToClosestEven, averageOfRoundedToClosestEven = findSumAndAverage(domain, roundedToClosestEven)
+sumOfRoundedToClosestInt, averageOfRoundedToClosestInt = findSumAndAverage(domain, roundedToClosestInt)
 
-errorOfRoundingToClosestEven = percentError(averageOfRandom, averageOfRoundedToClosestEven)
-errorOfRoundingToClosestInt = percentError(averageOfRandom, averageOfRoundedToClosestInt)
+# Find errors
+errorAvgEven = percentError(averageOfRandom, averageOfRoundedToClosestEven)
+errorAvgInt = percentError(averageOfRandom, averageOfRoundedToClosestInt)
+errorSumEven = percentError(sumOfRandom, sumOfRoundedToClosestEven)
+errorSumInt = percentError(sumOfRandom, sumOfRoundedToClosestInt)
 
 # Print output
 print 'Actual average:', averageOfRandom
-print 'Average after rounding to closest even integer:', averageOfRoundedToClosestEven, '. Error =', errorOfRoundingToClosestEven, '%'
-print 'Average after rounding to any closest integer:', averageOfRoundedToClosestInt, '. Error =', errorOfRoundingToClosestInt, '%'
-if (numpy.abs(averageOfRandom - averageOfRoundedToClosestInt) < numpy.abs(averageOfRandom - averageOfRoundedToClosestEven)):
-	print 'Here, averaging to any closest integer is a better method'
-elif (averageOfRoundedToClosestEven == averageOfRoundedToClosestInt):
+print 'Average after rounding to closest even integer:', averageOfRoundedToClosestEven, '. Error =', errorAvgEven, '%'
+print 'Average after rounding to any closest integer:', averageOfRoundedToClosestInt, '. Error =', errorAvgInt, '%'
+print 'Actual sum:', sumOfRandom
+print 'Sum after rounding to closest even integer:', sumOfRoundedToClosestEven, '. Error =', errorSumEven, '%'
+print 'Sum after rounding to any closest integer:', sumOfRoundedToClosestInt, '. Error =', errorSumInt, '%'
+
+if (numpy.abs(sumOfRandom - sumOfRoundedToClosestEven) < numpy.abs(sumOfRandom - sumOfRoundedToClosestInt)):
+	print 'Here, rounding to any closest integer is a better method'
+elif (sumOfRoundedToClosestEven == sumOfRoundedToClosestInt):
 	print 'Here, both rounding methods are equally as good'
 else:
-	print 'Here, averaging to closest even integer is a better method'
+	print 'Here, rounding to closest even integer is a better method'
 
 if (createPlots != 0):
 	# This will be used to normalize the graphs
@@ -129,17 +139,17 @@ if (createPlots != 0):
 	pylab.figure(1)
 	pylab.subplot(3,1,1)
 	pylab.bar(domain, randomSamples, width=0.1, color='g', alpha=0.4)
-	pylab.title('Random samples. Average = ' + str(averageOfRandom))
+	pylab.title('Random samples. avg = ' + str(averageOfRandom) + ' sum = ' + str(sumOfRandom))
 	pylab.vlines(averageOfRandom, 0.01, 0.99 * largestRandomValue, 'g') # min=0.01 and max=0.99 produce better looking graphs
 
 	pylab.subplot(3,1,2)
 	pylab.bar(domain, roundedToClosestEven, width=0.1 , color='b', alpha=0.4)
-	pylab.title('Rounded to closest even integer. Average = ' + str(averageOfRoundedToClosestEven))
+	pylab.title('Closest even integer. avg = ' + str(averageOfRoundedToClosestEven) + ' sum = ' + str(sumOfRoundedToClosestEven))
 	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.99 * largestRandomValueRoundedToClosestEven, 'k')
 
 	pylab.subplot(3,1,3)
 	pylab.bar(domain, roundedToClosestInt, width=0.1, color='r', alpha=0.4)
-	pylab.title('Rounded to any closest integer. Average = ' + str(averageOfRoundedToClosestInt))
+	pylab.title('Any closest integer. avg = ' + str(averageOfRoundedToClosestInt) + ' sum = ' + str(sumOfRoundedToClosestInt))
 	pylab.vlines(averageOfRoundedToClosestInt, 0.01, 0.99 * largestRandomValueRoundedToClosestInt, 'r')
 
 	# Plots one graph with all averages
