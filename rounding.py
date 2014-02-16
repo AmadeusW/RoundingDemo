@@ -128,23 +128,23 @@ if (createPlots != 0):
 	# Together with respective averages
 	pylab.figure(1)
 	pylab.subplot(3,1,1)
-	pylab.plot(domain, randomSamples / largestRandomValue) # normalize each graph
+	pylab.bar(domain, randomSamples, width=0.1, color='g', alpha=0.4)
 	pylab.title('Random samples. Average = ' + str(averageOfRandom))
-	pylab.vlines(averageOfRandom, 0.01, 0.99, 'g') # min=0.01 and max=0.99 produce better looking graphs
+	pylab.vlines(averageOfRandom, 0.01, 0.99 * largestRandomValue, 'g') # min=0.01 and max=0.99 produce better looking graphs
 
 	pylab.subplot(3,1,2)
-	pylab.plot(domain, roundedToClosestEven / largestRandomValueRoundedToClosestEven)
+	pylab.bar(domain, roundedToClosestEven, width=0.1 , color='b', alpha=0.4)
 	pylab.title('Rounded to closest even integer. Average = ' + str(averageOfRoundedToClosestEven))
-	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.99, 'k')
+	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.99 * largestRandomValueRoundedToClosestEven, 'k')
 
 	pylab.subplot(3,1,3)
-	pylab.plot(domain, roundedToClosestInt / largestRandomValueRoundedToClosestInt)
+	pylab.bar(domain, roundedToClosestInt, width=0.1, color='r', alpha=0.4)
 	pylab.title('Rounded to any closest integer. Average = ' + str(averageOfRoundedToClosestInt))
-	pylab.vlines(averageOfRoundedToClosestInt, 0.01, 0.99, 'r')
+	pylab.vlines(averageOfRoundedToClosestInt, 0.01, 0.99 * largestRandomValueRoundedToClosestInt, 'r')
 
 	# Plots one graph with all averages
 	pylab.figure(2)
-	pylab.plot(domain, randomSamples / largestRandomValue)
+	pylab.bar(domain, randomSamples / largestRandomValue, width=0.1, color='g', alpha=0.4) # normalize the graph
 
 	pylab.vlines(averageOfRandom, 0.01, 0.99, 'g')
 	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.97, 'k')
