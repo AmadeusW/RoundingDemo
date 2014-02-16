@@ -77,13 +77,12 @@ domainMax = args.domainMax
 amountOfSamples = args.samples
 seed = args.seed
 createPlots = args.plot
-print args
-print args.plot
 
 # Print configuration
 print 'Domain: x in [', domainMin, ',', domainMax, '], dx = 0.1. Number of samples:', amountOfSamples
 
 # Generate domain and random numbers
+# Amount of samples=domainMax*10 + 1 ensures that dx=0.1
 domain = generateDomain(domainMin, domainMax, domainMax*10 + 1)
 randomSamples = generateRandomNumbers(domain, amountOfSamples, seed)
 
@@ -122,23 +121,17 @@ if (createPlots != 0):
 	pylab.figure(1)
 	pylab.subplot(3,1,1)
 	pylab.plot(domain, randomSamples / largestRandomValue) # normalize each graph
-	#pylab.xlabel('x')
-	#pylab.ylabel('y')
-	pylab.title('Random samples')
+	pylab.title('Random samples. Average = ' + str(averageOfRandom))
 	pylab.vlines(averageOfRandom, 0.01, 0.99, 'g') # min=0.01 and max=0.99 produce better looking graphs
 
 	pylab.subplot(3,1,2)
 	pylab.plot(domain, roundedToClosestEven / largestRandomValueRoundedToClosestEven)
-	#pylab.xlabel('x')
-	#pylab.ylabel('y')
-	pylab.title('Random samples rounded to closest even integer')
+	pylab.title('Rounded to closest even integer. Average = ' + str(averageOfRoundedToClosestEven))
 	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.99, 'k')
 
 	pylab.subplot(3,1,3)
 	pylab.plot(domain, roundedToClosestInt / largestRandomValueRoundedToClosestInt)
-	#pylab.xlabel('x')
-	#pylab.ylabel('y')
-	pylab.title('Random samples rounded to any closest integer')
+	pylab.title('Rounded to any closest integer. Average = ' + str(averageOfRoundedToClosestInt))
 	pylab.vlines(averageOfRoundedToClosestInt, 0.01, 0.99, 'r')
 
 	# Plots one graph with all averages
@@ -148,6 +141,6 @@ if (createPlots != 0):
 	pylab.vlines(averageOfRandom, 0.01, 0.99, 'g')
 	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.97, 'k')
 	pylab.vlines(averageOfRoundedToClosestInt, 0.03, 0.99, 'r')
-	pylab.title('Averages produced by various rounding techniques')
+	pylab.title('Averages produced by rounding to closest integer (red) and closest even integer (black)')
 
 	pylab.show()
