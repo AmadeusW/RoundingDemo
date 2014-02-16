@@ -68,7 +68,7 @@ def percentError(experimental, actual):
 	return numpy.abs(experimental - actual) / actual * 100
 
 # Parse arguments
-parser = argparse.ArgumentParser(description='Demonstrate difference between rounding to nearest integer and rounding to nearest even integer')
+parser = argparse.ArgumentParser(description='Demonstrate difference between rounding half up and rounding half to even (banker\'s rounding')
 parser.add_argument('domainMin', type=int, nargs='?', default=0,
                    help='Lower bound on the domain (inclusive). Default = 0')
 parser.add_argument('domainMax', type=int, nargs='?', default=10,
@@ -113,18 +113,18 @@ errorSumInt = percentError(sumOfRandom, sumOfRoundedToClosestInt)
 
 # Print output
 print 'Actual average:', averageOfRandom
-print 'Average after rounding to closest even integer:', averageOfRoundedToClosestEven, '. Error =', errorAvgEven, '%'
-print 'Average after rounding to any closest integer:', averageOfRoundedToClosestInt, '. Error =', errorAvgInt, '%'
+print 'Average after rounding half to even:', averageOfRoundedToClosestEven, '. Error =', errorAvgEven, '%'
+print 'Average after rounding half up:', averageOfRoundedToClosestInt, '. Error =', errorAvgInt, '%'
 print 'Actual sum:', sumOfRandom
-print 'Sum after rounding to closest even integer:', sumOfRoundedToClosestEven, '. Error =', errorSumEven, '%'
-print 'Sum after rounding to any closest integer:', sumOfRoundedToClosestInt, '. Error =', errorSumInt, '%'
+print 'Sum after rounding half to even:', sumOfRoundedToClosestEven, '. Error =', errorSumEven, '%'
+print 'Sum after rounding half up:', sumOfRoundedToClosestInt, '. Error =', errorSumInt, '%'
 
-if (numpy.abs(sumOfRandom - sumOfRoundedToClosestEven) < numpy.abs(sumOfRandom - sumOfRoundedToClosestInt)):
-	print 'Here, rounding to any closest integer is a better method'
+if (numpy.abs(sumOfRandom - sumOfRoundedToClosestInt) < numpy.abs(sumOfRandom - sumOfRoundedToClosestEven)):
+	print 'Here, rounding half up is a better method'
 elif (sumOfRoundedToClosestEven == sumOfRoundedToClosestInt):
 	print 'Here, both rounding methods are equally as good'
 else:
-	print 'Here, rounding to closest even integer is a better method'
+	print 'Here, rounding half to even is a better method'
 
 if (createPlots != 0):
 	# This will be used to normalize the graphs
