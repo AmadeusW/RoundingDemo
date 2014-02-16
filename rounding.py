@@ -47,11 +47,19 @@ def roundValues(domain, samples, roundToClosestEvenInt):
 			# Python is rounding to nearest integer
 			roundedValue = round(value)
 
+		# Safety
+		if (numpy.abs(roundedValue - value) > 0.5):
+			print "ERROR: Incorrect rounding of", value, "to", roundedValue
+
 		# Find where in domain the rounded value resides
 		roundedValueIndex = bisect.bisect(domain, roundedValue) - 1
 
+		# Safety
+		if (roundedValue != domain[roundedValueIndex]):
+			print "ERROR: Found roundedValue", roundedValue, "in domain [", roundedValueIndex, "], but the value is", domain[roundedValueIndex]
+
 		# Move samples from value to the rounded value
-		outputArray[roundedValueIndex] += samples[value]
+		outputArray[roundedValueIndex] += samples[sample]
 	return outputArray
 
 def percentError(experimental, actual):
