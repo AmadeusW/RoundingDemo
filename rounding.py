@@ -148,12 +148,12 @@ if (createPlots != 0):
 
 	pylab.subplot(3,1,2)
 	pylab.bar(domain, roundedToClosestEven, width=0.1 , color='b', alpha=0.4)
-	pylab.title('Closest even integer. avg = ' + str(averageOfRoundedToClosestEven) + ' sum = ' + str(sumOfRoundedToClosestEven))
+	pylab.title('Rounding half to even. avg = ' + str(averageOfRoundedToClosestEven) + ' sum = ' + str(sumOfRoundedToClosestEven))
 	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.99 * largestRandomValueRoundedToClosestEven, 'k')
 
 	pylab.subplot(3,1,3)
 	pylab.bar(domain, roundedToClosestInt, width=0.1, color='r', alpha=0.4)
-	pylab.title('Any closest integer. avg = ' + str(averageOfRoundedToClosestInt) + ' sum = ' + str(sumOfRoundedToClosestInt))
+	pylab.title('Rounding half up. avg = ' + str(averageOfRoundedToClosestInt) + ' sum = ' + str(sumOfRoundedToClosestInt))
 	pylab.vlines(averageOfRoundedToClosestInt, 0.01, 0.99 * largestRandomValueRoundedToClosestInt, 'r')
 
 	# Plots one graph with all averages
@@ -163,6 +163,6 @@ if (createPlots != 0):
 	pylab.vlines(averageOfRandom, 0.01, 0.99, 'g')
 	pylab.vlines(averageOfRoundedToClosestEven, 0.01, 0.97, 'k')
 	pylab.vlines(averageOfRoundedToClosestInt, 0.03, 0.99, 'r')
-	pylab.title('Averages after rounding to nearest integer: any - red, and even - black')
+	pylab.title('Averages after rounding: half up - red, and half to even - black')
 
 	pylab.show()
