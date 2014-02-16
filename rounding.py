@@ -55,7 +55,7 @@ def roundValues(domain, samples, roundToClosestEvenInt):
 	return outputArray
 
 def percentError(experimental, actual):
-	return numpy.abs(experimental - actual) / actual
+	return numpy.abs(experimental - actual) / actual * 100
 
 # Parse arguments
 parser = argparse.ArgumentParser(description='Demonstrate difference between rounding to nearest integer and rounding to nearest even integer')
