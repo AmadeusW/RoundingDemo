@@ -98,4 +98,3 @@ Sum after rounding half to even: 3970.0 . Error = 0.569269521411 %
 Sum after rounding half up: 4050.0 . Error = 2.53333333333 %
 Here, rounding half to even is a better method
 
-
