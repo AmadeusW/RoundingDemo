@@ -1,7 +1,17 @@
 RoundingDemo
 ============
 
-After seeing https://stackoverflow.com/questions/977796/why-does-math-round2-5-return-2-instead-of-3-in-c I wanted to see the effects of Banker's Rounding.
+After seeing https://stackoverflow.com/questions/977796/why-does-math-round2-5-return-2-instead-of-3-in-c I wanted to see the effects of *Banker's Rounding*.
+
+*Banker's Rounding*, also known as *rounding half to even* results in smaller error when averaging and summing rounded values than *rounding half up*. The improvement is clearly visible for experiments with large sample numbers, for example, more than 100.
+
+**rounding.py** creates a lot of random decimals with one digit after the decimal point. Then it calculates a sum and an average for all three of:
+
+- original random decimals
+- values rounded half to even
+- values rounded half up
+
+Then, the script calculates percentage error and plots distribution of numbers.
 
 Usage
 -----
@@ -20,8 +30,6 @@ $ python rounding.py 10000 20000 100000 --plot 0
 
 Results
 -------
-
-*Banker's Rounding*, also known as *rounding half to even* results in smaller error of average and sum than *rounding half up*. The improvement is visible for experiments with large sample numbers. 
 
 **Example with varying number of samples:**
 ```
